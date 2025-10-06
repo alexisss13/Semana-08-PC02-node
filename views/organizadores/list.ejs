@@ -17,6 +17,15 @@
                         <p class="card-text text-secondary"><i class="bi bi-telephone-fill me-2"></i><%= organizador.telefono || 'No especificado' %></p>
                     </div>
                     <div class="card-footer d-flex justify-content-end gap-2">
+                        <!-- NUEVO BOTÓN DE WHATSAPP (solo si hay teléfono) -->
+                        <% if (organizador.telefono) { %>
+                            <a href="https://wa.me/<%= organizador.telefono.replace(/[^0-9]/g, '') %>?text=Hola%20<%= encodeURIComponent(organizador.nombre) %>!%20Te%20escribo%20desde%20Eventify." 
+                               target="_blank" 
+                               class="btn btn-sm btn-success">
+                                <i class="bi bi-whatsapp"></i> WhatsApp
+                            </a>
+                        <% } %>
+
                         <button class="btn btn-sm btn-outline-warning edit-organizador-btn" 
                                 data-id="<%= organizador.id_organizador %>"
                                 data-nombre="<%= organizador.nombre %>"

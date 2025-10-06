@@ -4,6 +4,7 @@ const { Sequelize } = require("sequelize");
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: "postgres",
   protocol: "postgres",
+  timezone: "-05:00",
   dialectOptions: {
     // Necesario para algunas configuraciones de hosting como Render que requieren SSL
     ssl: process.env.DATABASE_URL.includes("render.com")

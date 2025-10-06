@@ -14,7 +14,7 @@
             </div>
             <div class="mb-3">
                 <label for="fecha" class="form-label">Fecha</label>
-                <input type="date" class="form-control" id="fecha" name="fecha" value="<%= evento.fecha || '' %>" required>
+                <input type="date" class="form-control" id="fecha" name="fecha" value="<%= evento.fecha ? new Date(evento.fecha).toISOString().split('T')[0] : '' %>" required>
             </div>
             <div class="mb-3">
                 <label for="id_organizador" class="form-label">Organizador</label>

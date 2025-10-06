@@ -12,6 +12,8 @@
     --accent-hover: #4FD1C5; /* Acento para hover */
     --danger-color: #E53E3E;
     --warning-color: #DD6B20;
+    --success-color: #25D366; /* Verde WhatsApp */
+
 }
 
 /* --- Estilos Globales --- */
@@ -162,3 +164,89 @@ main {
     padding: 1.5rem 0;
 }
 
+
+/* --- Estilos Adicionales para el Calendario de Resumen --- */
+
+.calendar-container {
+    background-color: var(--bg-dark-secondary);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+#monthYear {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+}
+
+.calendar-day, .weekday {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    position: relative;
+}
+
+.weekday {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.calendar-day {
+    color: var(--text-primary);
+    transition: background-color 0.2s ease;
+}
+
+.calendar-day.other-month {
+    color: var(--text-secondary);
+    opacity: 0.5;
+}
+
+.calendar-day.has-event {
+    cursor: pointer;
+    font-weight: 700;
+    background-color: rgba(56, 178, 172, 0.1);
+    border: 1px solid var(--accent-primary);
+}
+
+.calendar-day.has-event:hover {
+    background-color: rgba(56, 178, 172, 0.2);
+}
+
+.event-dot {
+    position: absolute;
+    bottom: 8px;
+    width: 6px;
+    height: 6px;
+    background-color: var(--accent-primary);
+    border-radius: 50%;
+}
+
+/* --- NUEVOS ESTILOS PARA EL BOTÓN DE WHATSAPP --- */
+.btn-success {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+    color: #fff;
+}
+
+.btn-success:hover {
+    background-color: #1DA851; /* Un tono más oscuro para el hover */
+    border-color: #1DA851;
+    color: #fff;
+}

@@ -1,0 +1,151 @@
+<%- include('partials/header') %>
+
+<div class="calendar-container">
+    <!-- Encabezado del Calendario con Navegación -->
+    <div class="calendar-header">
+        <button id="prevMonth" class="btn btn-outline-secondary"><i class="bi bi-chevron-left"></i></button>
+        <h2 id="monthYear"></h2>
+        <button id="nextMonth" class="btn btn-outline-secondary"><i class="bi bi-chevron-right"></i></button>
+    </div>
+
+    <!-- Contenedor para la Cuadrícula del Calendario -->
+    <div class="calendar-grid weekdays">
+        <div class="weekday">Dom</div>
+        <div class="weekday">Lun</div>
+        <div class="weekday">Mar</div>
+        <div class="weekday">Mié</div>
+        <div class="weekday">Jue</div>
+        <div class="weekday">Vie</div>
+        <div class="weekday">Sáb</div>
+    </div>
+    <div id="calendar-grid" class="calendar-grid"></div>
+</div>
+
+<!-- Modal para mostrar los eventos del día seleccionado -->
+<div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventModalLabel">Eventos del Día</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="modalBodyContent" class="modal-body">
+                <!-- El contenido de los eventos se insertará aquí dinámicamente -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Se inyectan los eventos desde el servidor EJS a una variable de JavaScript
+    const serverEvents = <%- JSON.stringify(eventos) %>;
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const monthYearEl = document.getElementById('monthYear');
+        const calendarGridEl = document.getElementById('calendar-grid');
+        const prevMonthBtn = document.getElementById('prevMonth');
+        const nextMonthBtn = document.getElementById('nextMonth');
+        const modalElement = document.getElementById('eventModal');
+        const eventModal = new bootstrap.Modal(modalElement);
+        const modalBodyContent = document.getElementById('modalBodyContent');
+        const modalTitle = document.getElementById('eventModalLabel');
+
+        let currentDate = new Date();
+
+        // 1. Procesar los eventos para un acceso rápido por fecha
+        const eventsByDate = {};
+        serverEvents.forEach(event => {
+            // Normalizar la fecha para evitar problemas de zona horaria
+            const eventDate = new Date(event.fecha + 'T00:00:00');
+            const dateString = eventDate.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+            if (!eventsByDate[dateString]) {
+                eventsByDate[dateString] = [];
+            }
+            eventsByDate[dateString].push(event);
+        });
+
+        // 2. Función principal para renderizar el calendario
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+
+            monthYearEl.textContent = new Intl.DateTimeFormat('es-ES', { month: 'long', year: 'numeric' }).format(currentDate);
+            calendarGridEl.innerHTML = '';
+
+            const firstDayOfMonth = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            // Rellenar días del mes anterior
+            for (let i = 0; i < firstDayOfMonth; i++) {
+                const dayEl = document.createElement('div');
+                dayEl.classList.add('calendar-day', 'other-month');
+                calendarGridEl.appendChild(dayEl);
+            }
+
+            // Rellenar días del mes actual
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dayEl = document.createElement('div');
+                dayEl.classList.add('calendar-day');
+                dayEl.textContent = i;
+                
+                const dayDate = new Date(year, month, i);
+                const dateString = dayDate.toISOString().split('T')[0];
+
+                // Marcar días con eventos
+                if (eventsByDate[dateString]) {
+                    dayEl.classList.add('has-event');
+                    dayEl.innerHTML += '<span class="event-dot"></span>';
+                    dayEl.dataset.date = dateString;
+                }
+                calendarGridEl.appendChild(dayEl);
+            }
+        }
+
+        // 3. Manejar clics en los días con eventos
+        calendarGridEl.addEventListener('click', function(e) {
+            const dayEl = e.target.closest('.has-event');
+            if (!dayEl) return;
+
+            const dateString = dayEl.dataset.date;
+            const events = eventsByDate[dateString];
+            
+            // Formatear fecha para el título del modal
+            const eventDate = new Date(dateString + 'T00:00:00');
+            modalTitle.textContent = `Eventos del ${eventDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' })}`;
+            
+            // Poblar el cuerpo del modal con los eventos
+            modalBodyContent.innerHTML = '';
+            events.forEach(event => {
+                modalBodyContent.innerHTML += `
+                    <div class="card bg-dark mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title text-white">${event.titulo}</h5>
+                            <p class="card-text text-secondary mb-1">
+                                <i class="bi bi-person-workspace me-2"></i>
+                                ${event.organizador.nombre}
+                            </p>
+                            <a href="/eventos/${event.id_evento}" class="btn btn-sm btn-outline-info mt-2">Ver Detalles</a>
+                        </div>
+                    </div>
+                `;
+            });
+            eventModal.show();
+        });
+
+        // 4. Navegación entre meses
+        prevMonthBtn.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        });
+
+        nextMonthBtn.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        });
+
+        // Renderizar el calendario inicial al cargar la página
+        renderCalendar();
+    });
+</script>
+
+<%- include('partials/footer') %>

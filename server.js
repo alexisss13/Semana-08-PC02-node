@@ -8,6 +8,8 @@ const sequelize = require('./config/database');
 // Importar rutas
 const organizadorRoutes = require('./routes/organizadores');
 const eventoRoutes = require('./routes/eventos');
+const resumenRoutes = require('./routes/resumen');
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -33,6 +35,7 @@ app.get('/', (req, res) => {
 });
 app.use('/organizadores', organizadorRoutes);
 app.use('/eventos', eventoRoutes);
+app.use('/resumen', resumenRoutes);
 
 // Middleware para manejar errores 404 (Not Found)
 app.use((req, res, next) => {

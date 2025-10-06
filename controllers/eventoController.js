@@ -85,6 +85,14 @@ exports.create = async (req, res) => {
 
   try {
     const eventoData = { ...req.body };
+    // 🔧 Forzar la fecha a formato YYYY-MM-DD sin convertir zona horaria
+    if (eventoData.fecha) {
+      const fecha = new Date(eventoData.fecha);
+      const fechaLocal = new Date(
+        fecha.getTime() + fecha.getTimezoneOffset() * 60000
+      );
+      eventoData.fecha = fechaLocal.toISOString().split("T")[0];
+    }
     if (req.file) {
       // Guardamos solo el nombre del archivo en la BD
       eventoData.afiche = req.file.filename;
@@ -141,6 +149,13 @@ exports.update = async (req, res) => {
 
     // Gestionar el afiche
     const eventoData = { ...req.body };
+    if (eventoData.fecha) {
+      const fecha = new Date(eventoData.fecha);
+      const fechaLocal = new Date(
+        fecha.getTime() + fecha.getTimezoneOffset() * 60000
+      );
+      eventoData.fecha = fechaLocal.toISOString().split("T")[0];
+    }
     if (req.file) {
       // Si se sube un nuevo afiche, borrar el anterior si existe
       if (evento.afiche) {

@@ -6,9 +6,17 @@
             <h1 class="display-4 fw-bold text-white">Eventify</h1>
             <p class="fs-4 text-white-50 mb-4">Tu centro de mando para eventos inolvidables.</p>
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                <a href="/eventos" class="btn btn-primary btn-lg px-4 gap-3">
+                <!-- BOTÓN NUEVO: "Ver Resumen" como acción principal -->
+                <a href="/resumen" class="btn btn-primary btn-lg px-4 gap-3">
+                    <i class="bi bi-calendar-range"></i> Ver Resumen
+                </a>
+
+                <!-- Botón "Ver Eventos" actualizado a estilo secundario -->
+                <a href="/eventos" class="btn btn-outline-light btn-lg px-4">
                     <i class="bi bi-calendar3"></i> Ver Eventos
                 </a>
+
+                <!-- Botón "Gestionar Organizadores" mantiene su estilo -->
                 <a href="/organizadores" class="btn btn-outline-light btn-lg px-4">
                     <i class="bi bi-people-fill"></i> Gestionar Organizadores
                 </a>
@@ -18,3 +26,4 @@
 </div>
 
 <%- include('partials/footer') %>
+
