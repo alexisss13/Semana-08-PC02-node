@@ -14,7 +14,7 @@
                 <div class="card h-100">
                     <a href="/eventos/<%= evento.id_evento %>">
                         <% if (evento.afiche) { %>
-                            <img src="/uploads/afiches/<%= evento.afiche %>" class="card-img-top" alt="Afiche de <%= evento.titulo %>" style="height: 200px; object-fit: cover;">
+                            <img src="/uploads/afiches/<%= evento.afiche %>" class="card-img-top" alt="Afiche" style="height: 200px; object-fit: cover;">
                         <% } else { %>
                             <div class="d-flex align-items-center justify-content-center bg-dark text-secondary" style="height: 200px;">
                                 <i class="bi bi-image-alt fs-1"></i>
@@ -33,25 +33,20 @@
                         </p>
                     </div>
                     <div class="card-footer d-flex justify-content-end gap-2">
-                        <a href="/eventos/editar/<%= evento.id_evento %>" class="btn btn-sm btn-outline-warning">
-                            <i class="bi bi-pencil-fill"></i> Editar
-                        </a>
+                        <a href="/eventos/editar/<%= evento.id_evento %>" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil-fill"></i> Editar</a>
                         <form action="/eventos/eliminar/<%= evento.id_evento %>" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este evento?');">
-                            <button type="submit" class="btn btn-sm btn-outline-danger">
-                                <i class="bi bi-trash-fill"></i> Eliminar
-                            </button>
+                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash-fill"></i> Eliminar</button>
                         </form>
                     </div>
                 </div>
             </div>
         <% }); %>
     <% } else { %>
-        <div class="col-12">
-            <div class="card card-body text-center py-5">
-                <p class="mb-0">No hay eventos registrados. ¡Crea el primero!</p>
-            </div>
+        <div class="col-12 text-center py-5">
+            <p>No hay eventos registrados. ¡Crea el primero!</p>
         </div>
     <% } %>
 </div>
 
 <%- include('../partials/footer') %>
+

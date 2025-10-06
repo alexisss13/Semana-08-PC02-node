@@ -17,7 +17,11 @@ exports.getAll = async (req, res) => {
       ],
       order: [["fecha", "DESC"]],
     });
-    res.render("eventos/list", { title: "Eventos", eventos });
+    res.render("eventos/list", {
+      title: "Eventos",
+      eventos,
+      success: req.query.success,
+    });
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -86,7 +90,7 @@ exports.create = async (req, res) => {
       eventoData.afiche = req.file.filename;
     }
     await Evento.create(eventoData);
-    res.redirect("/eventos");
+    res.redirect("/eventos?success=create");
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -155,7 +159,7 @@ exports.update = async (req, res) => {
     }
 
     await evento.update(eventoData);
-    res.redirect("/eventos");
+    res.redirect("/eventos?success=update");
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -184,7 +188,7 @@ exports.delete = async (req, res) => {
     }
 
     await evento.destroy();
-    res.redirect("/eventos");
+    res.redirect("/eventos?success=delete");
   } catch (error) {
     res.status(500).send(error.message);
   }
