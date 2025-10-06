@@ -1,8 +1,10 @@
 <%- include('../partials/header') %>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1><%= title %></h1>
-    <a href="/organizadores/crear" class="btn btn-primary">Crear Organizador</a>
+    <h1 class="mb-0"><%= title %></h1>
+    <a href="/organizadores/crear" class="btn btn-primary">
+        <i class="bi bi-plus-circle me-2"></i>Crear Organizador
+    </a>
 </div>
 
 <%- include('../partials/messages', { success: success }) %>
@@ -13,9 +15,9 @@
             <table class="table table-hover align-middle">
                 <thead>
                     <tr>
-                        <th>Nombre</th>
-                        <th>Teléfono</th>
-                        <th class="text-end">Acciones</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Teléfono</th>
+                        <th scope="col" class="text-end">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,18 +25,24 @@
                         <% organizadores.forEach(function(organizador) { %>
                             <tr>
                                 <td><%= organizador.nombre %></td>
-                                <td><%= organizador.telefono || 'N/A' %></td>
+                                <td><%= organizador.telefono || 'No especificado' %></td>
                                 <td class="text-end">
-                                    <a href="/organizadores/editar/<%= organizador.id_organizador %>" class="btn btn-sm btn-warning">Editar</a>
-                                    <form action="/organizadores/eliminar/<%= organizador.id_organizador %>" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este organizador?');">
-                                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
-                                    </form>
+                                    <div class="btn-group">
+                                        <a href="/organizadores/editar/<%= organizador.id_organizador %>" class="btn btn-sm btn-outline-warning">
+                                            <i class="bi bi-pencil-fill"></i> Editar
+                                        </a>
+                                        <form action="/organizadores/eliminar/<%= organizador.id_organizador %>" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este organizador?');">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                <i class="bi bi-trash-fill"></i> Eliminar
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         <% }); %>
                     <% } else { %>
                         <tr>
-                            <td colspan="3" class="text-center">No hay organizadores registrados.</td>
+                            <td colspan="3" class="text-center py-4">No hay organizadores registrados.</td>
                         </tr>
                     <% } %>
                 </tbody>

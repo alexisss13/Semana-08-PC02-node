@@ -1,12 +1,18 @@
 <%- include('partials/header') %>
 
-<div class="container mt-5">
-    <div class="p-5 mb-4 bg-light rounded-3">
+<div class="container mt-4">
+    <div class="text-center hero-section">
         <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold">Sistema de Gestión de Eventos</h1>
-            <p class="col-md-8 fs-4">Bienvenido a la plataforma para administrar eventos y organizadores. Utiliza la barra de navegación para comenzar.</p>
-            <a href="/eventos" class="btn btn-primary btn-lg" type="button">Ver Eventos</a>
-            <a href="/organizadores" class="btn btn-secondary btn-lg" type="button">Ver Organizadores</a>
+            <h1 class="display-4 fw-bold text-white">Eventify</h1>
+            <p class="fs-4 text-white-50 mb-4">Tu centro de mando para eventos inolvidables.</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <a href="/eventos" class="btn btn-primary btn-lg px-4 gap-3">
+                    <i class="bi bi-calendar3"></i> Ver Eventos
+                </a>
+                <a href="/organizadores" class="btn btn-outline-light btn-lg px-4">
+                    <i class="bi bi-people-fill"></i> Gestionar Organizadores
+                </a>
+            </div>
         </div>
     </div>
 </div>
