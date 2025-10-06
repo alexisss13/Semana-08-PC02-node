@@ -1,0 +1,25 @@
+<%- include('../partials/header') %>
+
+<h1><%= title %></h1>
+<hr>
+
+<%- include('../partials/messages', { errors: errors }) %>
+
+<div class="card">
+    <div class="card-body">
+        <form action="<%= action %>" method="POST">
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" value="<%= organizador.nombre || '' %>" required>
+            </div>
+            <div class="mb-3">
+                <label for="telefono" class="form-label">Teléfono</label>
+                <input type="tel" class="form-control" id="telefono" name="telefono" value="<%= organizador.telefono || '' %>">
+            </div>
+            <button type="submit" class="btn btn-success">Guardar</button>
+            <a href="/organizadores" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

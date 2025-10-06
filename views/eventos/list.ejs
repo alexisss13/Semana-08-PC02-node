@@ -1,0 +1,41 @@
+<%- include('../partials/header') %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><%= title %></h1>
+    <a href="/eventos/crear" class="btn btn-primary">Crear Evento</a>
+</div>
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <% if (eventos.length > 0) { %>
+        <% eventos.forEach(function(evento) { %>
+            <div class="col">
+                <div class="card h-100">
+                    <a href="/eventos/<%= evento.id_evento %>">
+                        <% if (evento.afiche) { %>
+                            <img src="/uploads/afiches/<%= evento.afiche %>" class="card-img-top" alt="Afiche de <%= evento.titulo %>" style="height: 200px; object-fit: cover;">
+                        <% } else { %>
+                            <img src="https://via.placeholder.com/400x200.png?text=Sin+Afiche" class="card-img-top" alt="Sin Afiche" style="height: 200px; object-fit: cover;">
+                        <% } %>
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title"><%= evento.titulo %></h5>
+                        <p class="card-text"><small class="text-muted">Fecha: <%= new Date(evento.fecha + 'T00:00:00').toLocaleDateString() %></small></p>
+                        <p class="card-text"><small class="text-muted">Organizador: <%= evento.organizador.nombre %></small></p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 d-flex justify-content-end">
+                        <a href="/eventos/editar/<%= evento.id_evento %>" class="btn btn-sm btn-warning me-2">Editar</a>
+                        <form action="/eventos/eliminar/<%= evento.id_evento %>" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este evento?');">
+                            <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+    <% } else { %>
+        <div class="col-12">
+            <p class="text-center">No hay eventos registrados.</p>
+        </div>
+    <% } %>
+</div>
+
+<%- include('../partials/footer') %>

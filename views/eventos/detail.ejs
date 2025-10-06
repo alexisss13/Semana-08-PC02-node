@@ -1,0 +1,19 @@
+<%- include('../partials/header') %>
+
+<div class="card mb-4">
+    <% if (evento.afiche) { %>
+        <img src="/uploads/afiches/<%= evento.afiche %>" class="afiche-detail img-fluid" alt="Afiche de <%= evento.titulo %>">
+    <% } %>
+    <div class="card-body">
+        <h1 class="card-title"><%= evento.titulo %></h1>
+        <p class="card-text"><strong>Fecha:</strong> <%= new Date(evento.fecha + 'T00:00:00').toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+        <p class="card-text"><strong>Organizador:</strong> <%= evento.organizador.nombre %></p>
+        
+        <div class="mt-4">
+            <a href="/eventos/editar/<%= evento.id_evento %>" class="btn btn-warning">Editar Evento</a>
+            <a href="/eventos" class="btn btn-secondary">Volver al listado</a>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

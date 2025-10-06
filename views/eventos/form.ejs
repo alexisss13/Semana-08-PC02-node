@@ -1,0 +1,47 @@
+<%- include('../partials/header') %>
+
+<h1><%= title %></h1>
+<hr>
+
+<%- include('../partials/messages', { errors: errors }) %>
+
+<div class="card">
+    <div class="card-body">
+        <form action="<%= action %>" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="titulo" class="form-label">Título</label>
+                <input type="text" class="form-control" id="titulo" name="titulo" value="<%= evento.titulo || '' %>" required>
+            </div>
+            <div class="mb-3">
+                <label for="fecha" class="form-label">Fecha</label>
+                <input type="date" class="form-control" id="fecha" name="fecha" value="<%= evento.fecha || '' %>" required>
+            </div>
+            <div class="mb-3">
+                <label for="id_organizador" class="form-label">Organizador</label>
+                <select class="form-select" id="id_organizador" name="id_organizador" required>
+                    <option value="">-- Seleccionar Organizador --</option>
+                    <% organizadores.forEach(function(organizador) { %>
+                        <option value="<%= organizador.id_organizador %>" <%= (evento.id_organizador == organizador.id_organizador) ? 'selected' : '' %>>
+                            <%= organizador.nombre %>
+                        </option>
+                    <% }); %>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="afiche" class="form-label">Afiche (Opcional)</label>
+                <input class="form-control" type="file" id="afiche" name="afiche">
+                <% if (evento.afiche) { %>
+                    <div class="mt-2">
+                        <small>Afiche actual:</small><br>
+                        <img src="/uploads/afiches/<%= evento.afiche %>" alt="Afiche actual" class="afiche-thumbnail mt-1">
+                    </div>
+                <% } %>
+            </div>
+            
+            <button type="submit" class="btn btn-success">Guardar</button>
+            <a href="/eventos" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>
